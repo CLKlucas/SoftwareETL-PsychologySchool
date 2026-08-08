@@ -1,10 +1,7 @@
 import gspread
-
 from google.auth import default
 
-
-id_sheet = "1fmnXoXn0HGqwiQEwZke6mBSNHw1eaJ1wjtcPob9SU8s"
-
+ID_SHEET = "1fmnXoXn0HGqwiQEwZke6mBSNHw1eaJ1wjtcPob9SU8s"
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets.readonly",
@@ -15,9 +12,19 @@ credentials, project = default(scopes=SCOPES)
 
 gc = gspread.authorize(credentials)
 
-spreadsheet = gc.open_by_key(id_sheet)
+spreadsheet = gc.open_by_key(ID_SHEET)
 
 print(f"Planilha: {spreadsheet.title}")
 
-for worksheet in spreadsheet.worksheets():
-    print(f"Aba: {worksheet.title}")
+worksheet = spreadsheet.worksheet("records")
+
+print(f"\nAba selecionada: {worksheet.title}")
+
+dados = worksheet.get_all_records()
+
+print(f"Quantidade de registros: {len(dados)}")
+
+print("\nPrimeiros 5 registros:")
+
+for registro in dados[:5]:
+    print(registro)
