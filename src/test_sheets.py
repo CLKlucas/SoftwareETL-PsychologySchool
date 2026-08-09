@@ -16,15 +16,29 @@ spreadsheet = gc.open_by_key(ID_SHEET)
 
 print(f"Planilha: {spreadsheet.title}")
 
-worksheet = spreadsheet.worksheet("daily")
+# Aba records
+records = spreadsheet.worksheet("records")
 
-print(f"\nAba selecionada: {worksheet.title}")
+print(f"\nAba: {records.title}")
 
-dados = worksheet.get_all_values()
+valor_records = records.get(
+    "F4",
+    value_render_option="FORMULA"
+)
 
-print(f"Quantidade de registros: {len(dados)}")
+print("records F4:")
+print(valor_records)
 
-print("\nPrimeiros 5 registros:")
 
-for registro in dados[:5]:
-    print(registro)
+# Aba daily
+daily = spreadsheet.worksheet("daily")
+
+print(f"\nAba: {daily.title}")
+
+valor_daily = daily.get(
+    "R4",
+    value_render_option="FORMULA"
+)
+
+print("daily R4:")
+print(valor_daily)
