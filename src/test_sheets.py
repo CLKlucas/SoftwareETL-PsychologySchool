@@ -22,11 +22,11 @@ records = spreadsheet.worksheet("records")
 print(f"\nAba: {records.title}")
 
 valor_records = records.get(
-    "F4",
+    "F5",
     value_render_option="FORMULA"
 )
 
-print("records F4:")
+print("records F5:")
 print(valor_records)
 
 
@@ -36,9 +36,9 @@ daily = spreadsheet.worksheet("daily")
 print(f"\nAba: {daily.title}")
 
 valor_daily = daily.get(
-    "R4",
+    "R5",
     value_render_option="FORMULA"
 )
 
-print("daily R4:")
+print("daily R5:")
 print(valor_daily)
