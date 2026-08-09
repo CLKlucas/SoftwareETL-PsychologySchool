@@ -1,6 +1,6 @@
 from src.ETL import extracao
 from src.ETL import transformacao
-
+    
 dados_daily = extracao.extrair_daily()
 
 df = transformacao.transformar_daily(dados_daily)
