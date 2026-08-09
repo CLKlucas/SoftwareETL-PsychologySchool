@@ -9,7 +9,6 @@ def transformar_daily(dados_daily):
 
     df = pd.DataFrame(dados, columns=cabecalho)
 
-    
     colunas = []
     semana_encontrada = False
 
@@ -31,12 +30,10 @@ def transformar_daily(dados_daily):
 
     df.columns = colunas
 
-
     df = df.drop(
         columns=["semana_duplicada", "ignorar"],
         errors="ignore"
     )
-
 
     horarios = [
         "8h00",
@@ -60,13 +57,11 @@ def transformar_daily(dados_daily):
         value_name="quantidade"
     )
 
-
     df["semana"] = pd.to_numeric(
         df["semana"],
         errors="coerce"
     ).fillna(0).astype(int)
 
-    
     df["quantidade"] = pd.to_numeric(
         df["quantidade"],
         errors="coerce"
@@ -80,9 +75,13 @@ def transformar_daily(dados_daily):
 
     df = df.dropna(subset=["dia"])
 
-    
     df["ano"] = df["dia"].dt.year.astype(int)
 
+    df["horario"] = (
+        df["horario"]
+        .str.replace("h", ":", regex=False)
+        .apply(lambda x: x.zfill(5))
+    )
 
     df = df[
         [
