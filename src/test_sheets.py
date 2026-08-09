@@ -16,7 +16,7 @@ spreadsheet = gc.open_by_key(ID_SHEET)
 
 print(f"Planilha: {spreadsheet.title}")
 
-worksheet = spreadsheet.worksheet("records")
+worksheet = spreadsheet.worksheet("daily")
 
 print(f"\nAba selecionada: {worksheet.title}")
 
