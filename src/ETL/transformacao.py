@@ -78,6 +78,8 @@ def transformar_daily(dados_daily):
         errors="coerce"
     )
 
+    df = df.dropna(subset=["dia"])
+
     
     df["ano"] = df["dia"].dt.year.astype(int)
 
