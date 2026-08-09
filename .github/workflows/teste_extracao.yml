@@ -1,0 +1,34 @@
+name: Teste de Extração
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-extracao:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: |
+          pip install -r requirements.txt
+
+      - name: Autenticar no Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/218114534545/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions"
+          service_account: "etl-psicologia@software-etl.iam.gserviceaccount.com"
+
+      - name: Executar teste de extração
+        run: python -m src.Test.test_extracao
