@@ -3,14 +3,13 @@ import pandas as pd
 
 def transformar_daily(dados_daily):
 
-
     cabecalho = dados_daily[1]
 
     dados = dados_daily[2:]
 
     df = pd.DataFrame(dados, columns=cabecalho)
 
-
+    
     colunas = []
     semana_encontrada = False
 
@@ -38,6 +37,7 @@ def transformar_daily(dados_daily):
         errors="ignore"
     )
 
+
     horarios = [
         "8h00",
         "9h00",
@@ -53,7 +53,6 @@ def transformar_daily(dados_daily):
         "19h00"
     ]
 
-
     df = df.melt(
         id_vars=["semana", "dia"],
         value_vars=horarios,
@@ -61,10 +60,12 @@ def transformar_daily(dados_daily):
         value_name="quantidade"
     )
 
+
     df["semana"] = pd.to_numeric(
         df["semana"],
         errors="coerce"
     ).fillna(0).astype(int)
+
     
     df["quantidade"] = pd.to_numeric(
         df["quantidade"],
@@ -77,7 +78,9 @@ def transformar_daily(dados_daily):
         errors="coerce"
     )
 
+    
     df["ano"] = df["dia"].dt.year.astype(int)
+
 
     df = df[
         [
