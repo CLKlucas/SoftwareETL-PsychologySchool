@@ -1,12 +1,14 @@
 import gspread
 from google.auth import default
 
+
 ID_SHEET = "1fmnXoXn0HGqwiQEwZke6mBSNHw1eaJ1wjtcPob9SU8s"
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets.readonly",
     "https://www.googleapis.com/auth/drive.readonly",
 ]
+
 
 credentials, project = default(scopes=SCOPES)
 
@@ -17,7 +19,6 @@ spreadsheet = gc.open_by_key(ID_SHEET)
 print(f"Planilha: {spreadsheet.title}")
 
 
-# records
 records = spreadsheet.worksheet("records")
 
 print(f"\nAba: {records.title}")
@@ -30,11 +31,10 @@ valor_records = records.get(
 print("records F5:")
 print(valor_records)
 
-
-# daily
 daily = spreadsheet.worksheet("daily")
 
 print(f"\nAba: {daily.title}")
+
 
 valor_daily = daily.get(
     "R5",
@@ -44,8 +44,6 @@ valor_daily = daily.get(
 print("daily R5:")
 print(valor_daily)
 
-
-# Horários da daily
 print("\nValores dos horários da daily:")
 
 horarios = daily.get(
@@ -54,3 +52,11 @@ horarios = daily.get(
 )
 
 print(horarios)
+
+
+print("\nPrimeiras linhas da daily:")
+
+dados_daily = daily.get("A3:Q7")
+
+for linha in dados_daily:
+    print(linha)
