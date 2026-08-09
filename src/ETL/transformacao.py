@@ -3,25 +3,26 @@ import pandas as pd
 
 def transformar_daily(dados_daily):
 
+
     cabecalho = dados_daily[1]
-    
+
     dados = dados_daily[2:]
 
     df = pd.DataFrame(dados, columns=cabecalho)
 
+
     colunas = []
-    contador_semana = 0
+    semana_encontrada = False
 
     for coluna in df.columns:
 
         if coluna == "semana":
-            contador_semana += 1
 
-            if contador_semana == 1:
+            if not semana_encontrada:
                 colunas.append("semana")
-
+                semana_encontrada = True
             else:
-                colunas.append("semana_2")
+                colunas.append("semana_duplicada")
 
         elif coluna == "":
             colunas.append("ignorar")
@@ -31,7 +32,11 @@ def transformar_daily(dados_daily):
 
     df.columns = colunas
 
-    df = df.drop(columns=["ignorar"], errors="ignore")
+
+    df = df.drop(
+        columns=["semana_duplicada", "ignorar"],
+        errors="ignore"
+    )
 
     horarios = [
         "8h00",
@@ -48,22 +53,40 @@ def transformar_daily(dados_daily):
         "19h00"
     ]
 
+
     df = df.melt(
-        id_vars=["mês", "semana", "semana_2", "dia"],
+        id_vars=["semana", "dia"],
         value_vars=horarios,
         var_name="horario",
         value_name="quantidade"
     )
 
+    df["semana"] = pd.to_numeric(
+        df["semana"],
+        errors="coerce"
+    ).fillna(0).astype(int)
+    
     df["quantidade"] = pd.to_numeric(
         df["quantidade"],
         errors="coerce"
-    ).fillna(0)
+    ).fillna(0).astype(int)
 
     df["dia"] = pd.to_datetime(
         df["dia"],
         dayfirst=True,
         errors="coerce"
     )
+
+    df["ano"] = df["dia"].dt.year
+
+    df = df[
+        [
+            "dia",
+            "ano",
+            "semana",
+            "horario",
+            "quantidade"
+        ]
+    ]
 
     return df
