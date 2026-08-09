@@ -16,7 +16,8 @@ spreadsheet = gc.open_by_key(ID_SHEET)
 
 print(f"Planilha: {spreadsheet.title}")
 
-# Aba records
+
+# records
 records = spreadsheet.worksheet("records")
 
 print(f"\nAba: {records.title}")
@@ -30,7 +31,7 @@ print("records F5:")
 print(valor_records)
 
 
-# Aba daily
+# daily
 daily = spreadsheet.worksheet("daily")
 
 print(f"\nAba: {daily.title}")
@@ -42,3 +43,14 @@ valor_daily = daily.get(
 
 print("daily R5:")
 print(valor_daily)
+
+
+# Horários da daily
+print("\nValores dos horários da daily:")
+
+horarios = daily.get(
+    "F5:Q5",
+    value_render_option="FORMULA"
+)
+
+print(horarios)
