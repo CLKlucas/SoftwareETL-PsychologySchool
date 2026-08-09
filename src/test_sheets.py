@@ -20,7 +20,7 @@ worksheet = spreadsheet.worksheet("records")
 
 print(f"\nAba selecionada: {worksheet.title}")
 
-dados = worksheet.get_all_records()
+dados = worksheet.get_all_values()
 
 print(f"Quantidade de registros: {len(dados)}")
 
