@@ -77,7 +77,7 @@ def transformar_daily(dados_daily):
         errors="coerce"
     )
 
-    df["ano"] = df["dia"].dt.year
+    df["ano"] = df["dia"].dt.year.astype(int)
 
     df = df[
         [
