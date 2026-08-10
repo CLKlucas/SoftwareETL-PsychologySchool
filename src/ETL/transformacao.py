@@ -94,7 +94,6 @@ def transformar_daily(dados_daily):
 def transformar_records(dados_records):
 
     cabecalho = dados_records[1]
-
     dados = dados_records[2:]
 
     df = pd.DataFrame(dados, columns=cabecalho)
@@ -128,12 +127,12 @@ def transformar_records(dados_records):
     df["semana"] = pd.to_numeric(
         df["semana"],
         errors="coerce"
-    ).fillna(0).astype(int)
+    )
 
-    df["quantidade"] = pd.to_numeric(
-        df["quantidade"],
+    df["atendimentos"] = pd.to_numeric(
+        df["atendimentos"],
         errors="coerce"
-    ).fillna(0).astype(int)
+    )
 
     df["dia"] = pd.to_datetime(
         df["dia"],
@@ -143,8 +142,10 @@ def transformar_records(dados_records):
 
     df = df.dropna(subset=["dia"])
 
-    df["ano"] = df["dia"].dt.year.astype(int)
+    df["semana"] = df["semana"].fillna(0).astype(int)
+    df["atendimentos"] = df["atendimentos"].fillna(0).astype(int)
 
+    df["ano"] = df["dia"].dt.year.astype(int)
 
     df = df.rename(
         columns={
@@ -156,7 +157,7 @@ def transformar_records(dados_records):
         [
             "dia",
             "ano",
-            "semana",   
+            "semana",
             "quantidade"
         ]
     ]
