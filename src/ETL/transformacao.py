@@ -77,12 +77,6 @@ def transformar_daily(dados_daily):
 
     df["ano"] = df["dia"].dt.year.astype(int)
 
-    df["horario"] = (
-        df["horario"]
-        .str.replace("h", ":", regex=False)
-        .apply(lambda x: x.zfill(5))
-    )
-
     df = df[
         [
             "dia",
