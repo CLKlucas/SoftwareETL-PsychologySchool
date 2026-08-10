@@ -77,12 +77,86 @@ def transformar_daily(dados_daily):
 
     df["ano"] = df["dia"].dt.year.astype(int)
 
+
     df = df[
         [
             "dia",
             "ano",
             "semana",
             "horario",
+            "quantidade"
+        ]
+    ]
+
+    return df
+
+
+def transformar_records(dados_records):
+
+    cabecalho = dados_records[1]
+
+    dados = dados_records[2:]
+
+    df = pd.DataFrame(dados, columns=cabecalho)
+
+    colunas = []
+    semana_encontrada = False
+
+    for coluna in df.columns:
+
+        if coluna == "semana":
+
+            if not semana_encontrada:
+                colunas.append("semana")
+                semana_encontrada = True
+            else:
+                colunas.append("semana_duplicada")
+
+        elif coluna == "":
+            colunas.append("ignorar")
+
+        else:
+            colunas.append(coluna)
+
+    df.columns = colunas
+
+    df = df.drop(
+        columns=["semana_duplicada", "ignorar"],
+        errors="ignore"
+    )
+
+    df["semana"] = pd.to_numeric(
+        df["semana"],
+        errors="coerce"
+    ).fillna(0).astype(int)
+
+    df["quantidade"] = pd.to_numeric(
+        df["quantidade"],
+        errors="coerce"
+    ).fillna(0).astype(int)
+
+    df["dia"] = pd.to_datetime(
+        df["dia"],
+        dayfirst=True,
+        errors="coerce"
+    )
+
+    df = df.dropna(subset=["dia"])
+
+    df["ano"] = df["dia"].dt.year.astype(int)
+
+
+    df = df.rename(
+        columns={
+            "atendimentos": "quantidade"
+        }
+    )
+
+    df = df[
+        [
+            "dia",
+            "ano",
+            "semana",   
             "quantidade"
         ]
     ]
