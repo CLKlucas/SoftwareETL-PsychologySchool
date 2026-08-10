@@ -1,6 +1,6 @@
-from Conexão import sheet_con
-from ETL import extracao
-from ETL import transformacao
+from src.Conexão import sheet_con
+from src.ETL import extracao
+from src.ETL import transformacao
 
 conexao = sheet_con.connect_sheet()
 
