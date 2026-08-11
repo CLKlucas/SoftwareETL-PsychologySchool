@@ -17,4 +17,3 @@ def connect_sheet():
     spreadsheet = gc.open_by_key(ID_SHEET)
     return spreadsheet
 
-# AQUI É REALIZADO A CONEXÃO COM A PLANILHA E O RETORNO DA PLANILHAS
