@@ -5,7 +5,7 @@ supabase = supabase_con.conectar_supabase()
 
 resposta = (
     supabase
-    .table("atendimentos")
+    .table("Atendimentos")
     .select("*")
     .limit(1)
     .execute()
