@@ -1,7 +1,9 @@
 from src.ETL import extracao
+from src.Conexão import sheet_con
 
+conexao = sheet_con.connect_sheet()
 
-dados = extracao.extrair_daily()
+dados = extracao.extrair_daily(conexao)
 
 print("Extração realizada com sucesso!")
 print(f"Quantidade de linhas: {len(dados)}")
