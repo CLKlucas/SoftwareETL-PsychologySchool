@@ -1,0 +1,36 @@
+name: Main ETL Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-main:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: 'projects/218114534545/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions'
+          service_account: 'etl-psicologia@software-etl.iam.gserviceaccount.com'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Test Main
+        env:
+          URL_SUPABASE: ${{ secrets.URL_SUPABASE }}
+          KEY_SUPABASE: ${{ secrets.KEY_SUPABASE }}
+        run: python -m src.Test.test_main
