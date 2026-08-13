@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-transformacao:
+  test-carregamento:
     runs-on: ubuntu-latest
 
     permissions:
@@ -31,4 +31,7 @@ jobs:
           service_account: "etl-psicologia@software-etl.iam.gserviceaccount.com"
 
       - name: Executar teste de Carregamento de Dados
+        env:
+          URL_SUPABASE: ${{ secrets.URL_SUPABASE }}
+          KEY_SUPABASE: ${{ secrets.KEY_SUPABASE }}
         run: python -m src.Test.test_load
