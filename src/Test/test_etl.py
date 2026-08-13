@@ -1,12 +1,12 @@
 from src.Conexão import sheet_con
-from src.ETL import extracao
-from src.ETL import transformacao
+from ETL import extract
+from ETL import transform
 
 conexao = sheet_con.connect_sheet()
 
-dados_daily = extracao.extrair_daily(conexao)
+dados_daily = extract.extrair_daily(conexao)
 
-df = transformacao.transformar_daily(dados_daily)
+df = transform.transformar_daily(dados_daily)
 
 print("Extração + transformação executadas com sucesso!")
 print(f"Quantidade de registros: {len(df)}")
