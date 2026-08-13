@@ -1,4 +1,4 @@
-from src import main
+import main
 
 
 print("Iniciando teste do ETL completo...")
