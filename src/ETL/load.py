@@ -24,6 +24,9 @@ def carregar_dados(DataFrame):
 
     dados["Data"] = dados["Data"].dt.strftime("%Y-%m-%d")
 
+    print("\nDados que serão enviados para o Supabase:")
+    print(dados.to_string(index=False))
+
     registros = dados.to_dict(orient="records")
 
     resposta = (
