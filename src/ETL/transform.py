@@ -76,9 +76,19 @@ def transformar_daily(dados_daily):
         df["dia"],
         dayfirst=True,
         errors="coerce"
-    )
+)
 
-    df = df.dropna(subset=["dia"])
+    datas_invalidas = df["dia"].isna()
+
+    if datas_invalidas.any():
+        registros_invalidos = df.loc[
+        datas_invalidas,
+        ["dia"]
+    ]
+
+        raise ValueError(
+            "Foram encontradas datas inválidas na planilha."
+        )
 
     df["ano"] = df["dia"].dt.year.astype(int)
 
