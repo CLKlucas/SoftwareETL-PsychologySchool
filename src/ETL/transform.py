@@ -67,6 +67,11 @@ def transformar_daily(dados_daily):
         errors="coerce"
     ).fillna(0).astype(int)
 
+    if (df["quantidade"] < 0).any():
+        raise ValueError(
+        "Foram encontrados valores negativos na coluna 'quantidade'."
+    )
+
     df["dia"] = pd.to_datetime(
         df["dia"],
         dayfirst=True,
