@@ -72,27 +72,13 @@ def transformar_daily(dados_daily):
         "Foram encontrados valores negativos na coluna 'quantidade'."
     )
 
-    data_original = df["dia"].copy()
-
     df["dia"] = pd.to_datetime(
-    df["dia"],
-    dayfirst=True,
-    errors="coerce"
-)
-
-    datas_invalidas = (
-        df["dia"].isna()
-        & data_original.astype(str).str.strip().ne("")
+        df["dia"],
+        dayfirst=True,
+        errors="coerce"
     )
 
-    if datas_invalidas.any():
-
-        registros_invalidos = data_original[datas_invalidas].unique()
-
-        raise ValueError(
-            f"Foram encontradas datas inválidas na planilha: "
-            f"{list(registros_invalidos)}"
-     )
+    df = df.dropna(subset=["dia"])
 
     df["ano"] = df["dia"].dt.year.astype(int)
 
