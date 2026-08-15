@@ -35,7 +35,7 @@ def carregar_dados(DataFrame):
     try:
         resposta = (
         banco_conexao
-        .table("atendimentos_teste")
+        .table("atendimentos")
         .upsert(
             registros,
             on_conflict="Data,Horario"
