@@ -2,15 +2,17 @@ from src.Conexão import supabase_con as supabase
 
 
 def carregar_dados(DataFrame):
+
     banco_conexao = supabase.conectar_supabase()
 
     dados = DataFrame[
         [
             "dia",
             "horario",
-            "semana",   
-            "quantidade"
-        ]       
+            "semana",
+            "quantidade",
+            "preenchido"
+        ]
     ].copy()
 
     dados = dados.rename(
@@ -18,7 +20,8 @@ def carregar_dados(DataFrame):
             "dia": "Data",
             "horario": "Horario",
             "semana": "Semana",
-            "quantidade": "Quantidade"
+            "quantidade": "Quantidade",
+            "preenchido": "Preenchido"
         }
     )
 

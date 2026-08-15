@@ -57,6 +57,14 @@ def transformar_daily(dados_daily):
         value_name="quantidade"
     )
 
+    # Verifica se a quantidade estava preenchida
+    # antes de transformar valores vazios em 0.
+    df["preenchido"] = (
+        df["quantidade"]
+        .notna()
+        & (df["quantidade"].astype(str).str.strip() != "")
+    )
+
     df["semana"] = pd.to_numeric(
         df["semana"],
         errors="coerce"
@@ -69,8 +77,8 @@ def transformar_daily(dados_daily):
 
     if (df["quantidade"] < 0).any():
         raise ValueError(
-        "Foram encontrados valores negativos na coluna 'quantidade'."
-    )
+            "Foram encontrados valores negativos na coluna 'quantidade'."
+        )
 
     df["dia"] = pd.to_datetime(
         df["dia"],
@@ -82,16 +90,15 @@ def transformar_daily(dados_daily):
 
     df["ano"] = df["dia"].dt.year.astype(int)
 
-
     df = df[
         [
             "dia",
             "ano",
             "semana",
             "horario",
-            "quantidade"
+            "quantidade",
+            "preenchido"
         ]
     ]
 
     return df
-
