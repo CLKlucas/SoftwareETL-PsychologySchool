@@ -8,6 +8,11 @@ def main():
 
     dados_planilha = extract.extrair_daily(conexao)
     DF_dados = transform.transformar_daily(dados_planilha)
+
+    if DF_dados.empty:
+        print("Nenhum dado encontrado na planilha. Nada será enviado ao banco.")
+        return
+
     load_banco = load.carregar_dados(DF_dados)
 
 

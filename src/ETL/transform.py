@@ -50,6 +50,18 @@ def transformar_daily(dados_daily):
         "19h00"
     ]
 
+    if df.empty:
+        return pd.DataFrame(
+        columns=[
+            "dia",
+            "ano",
+            "semana",
+            "horario",
+            "quantidade",
+            "preenchido"
+        ]
+    )
+
     df = df.melt(
         id_vars=["semana", "dia"],
         value_vars=horarios,
@@ -57,8 +69,6 @@ def transformar_daily(dados_daily):
         value_name="quantidade"
     )
 
-    # Verifica se a quantidade estava preenchida
-    # antes de transformar valores vazios em 0.
     df["preenchido"] = (
         df["quantidade"]
         .notna()
