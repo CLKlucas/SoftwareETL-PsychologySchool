@@ -32,14 +32,20 @@ def carregar_dados(DataFrame):
 
     registros = dados.to_dict(orient="records")
 
-    resposta = (
+    try:
+        resposta = (
         banco_conexao
-        .table("atendimentos")
+        .table("atendimentos_teste")
         .upsert(
             registros,
             on_conflict="Data,Horario"
         )
         .execute()
     )
+
+    except Exception as erro:
+        print("\nERRO AO ENVIAR DADOS PARA O SUPABASE!")
+        print(f"Detalhes do erro: {erro}")
+        raise
 
     return resposta
