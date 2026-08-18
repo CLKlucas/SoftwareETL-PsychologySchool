@@ -2,7 +2,7 @@ name: ETL periodico
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 15,18,21 * * 1"
     
   workflow_dispatch:
 
