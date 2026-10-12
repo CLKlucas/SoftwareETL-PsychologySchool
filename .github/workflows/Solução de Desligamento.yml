@@ -1,0 +1,48 @@
+name: Supabase Health Check
+
+on:
+  schedule:
+    - cron: "15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar cliente Supabase
+        run: pip install supabase
+
+      - name: Consultar banco
+        env:
+          URL_SUPABASE: ${{ secrets.URL_SUPABASE }}
+          KEY_SUPABASE: ${{ secrets.KEY_SUPABASE }}
+        run: |
+          import os
+          from supabase import create_client
+
+          supabase = create_client(
+              os.environ["URL_SUPABASE"],
+              os.environ["KEY_SUPABASE"]
+          )
+
+          resposta = (
+              supabase
+              .table("atendimentos")
+              .select("Data")
+              .limit(1)
+              .execute()
+          )
+
+          print("Consulta ao Supabase realizada com sucesso.")
+          print(f"Registros retornados: {len(resposta.data)}")
+        shell: python
